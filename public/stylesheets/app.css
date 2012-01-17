@@ -1,0 +1,33 @@
+body {background:#212727;}
+
+header {padding:10px;}
+header h1 {font-size:1.4em; margin:0; padding: 0; line-height:18px;}
+header a, header a:link, header a:visited, header a:hover {color: white; text-decoration:none;}
+
+#documentation {background:#DCE4EB; position:relative;}
+#documentation a, #documentation a:link, #documentation a:visited, #documentation a:hover {color:#444; text-decoration:none;}
+#documentation a:hover {text-decoration:underline;}
+
+#navigation {padding-left:20px; padding-top:20px;}
+#navigation a, #navigation a:link, #navigation a:visited, #navigation a:hover {display:block;}
+#navigation dt {color:#444; font-weight:bold; text-transform:uppercase;}
+#navigation dd {color:#444; font-weight:normal; margin-left:0;}
+#navigation ul {list-style:none; padding-left:0;}
+#navigation li {padding:5px 0;}
+#navigation li.selected a {color:#A9014B;}
+/*#navigation li ul {display:none;}
+#navigation li.expanded ul {display:block; margin-top:0; margin-left:10px; font-size:1em;}
+#navigation li.expanded ul li {padding:2px 0;}*/
+
+#viewer-wrapper {background:white; padding-left:9px; padding-right:10px; margin-left:0; margin-right:0; border-left:1px solid #CCC; min-height: 580px;}
+#viewer {padding:36px 60px;}
+#documentation #viewer a {color:#A9014B;}
+#viewer h1 {font-size:2.2em; margin-bottom:10px;}
+#viewer h2 {font-size:1.6em;}
+#viewer .heading hr {margin:25px 0;}
+#viewer .heading p {color:#888; font-size:1.2em; margin:0;}
+
+code {background:#BFF; padding:1px 5px; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; -opera-border-radius:5px; border:1px solid #ABF;}
+
+.gist .gist-file .gist-data.gist-syntax {border-bottom:none;}
+.gist-meta {display:none;}

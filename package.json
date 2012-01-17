@@ -1,0 +1,9 @@
+{
+  "name": "caboosejs.com",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "caboose": "latest",
+    "ejs": "latest"
+  }
+}

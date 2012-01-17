@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>Caboose JS<%= (typeof(title) === 'undefined' ? '' : ' | ' + title) %></title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- CSS concatenated and minified via ant build script-->
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="/stylesheets/960.css">
+  <link rel="stylesheet" href="/stylesheets/app.css">
+  <!-- end CSS-->
+
+  <script src="/javascripts/libs/modernizr-2.0.6.min.js"></script>
+</head>
+
+<body<%- this.page_id ? ' id="' + this.page_id + '"' : '' %>>
+  
+
+  <div id="container">
+    <header>
+      <%- partial('/layouts/header') %>
+    </header>
+    <div id="documentation" class="container_16">
+      <a href="https://github.com/mattinsler/caboose">
+        <img style="position: absolute; top: 0; right: 0; border: 0;"
+        src="https://a248.e.akamai.net/assets.github.com/img/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
+        alt="Fork me on GitHub">
+      </a>
+      
+      <div class="grid_3">
+        <%- partial('/layouts/navigation') %>
+      </div>
+
+      <div id="viewer-wrapper" class="grid_13">
+        <div id="viewer">
+          <%- yield() %>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <%- partial('/layouts/footer') %>
+    </footer>
+  </div> <!--! end of #container -->
+
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="/javascripts/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+
+  <!-- scripts concatenated and minified via ant build script-->
+  <script defer src="/javascripts/plugins.js"></script>
+  <script defer src="/javascripts/app.js"></script>
+  <!-- end scripts-->
+
+  <% console.log(tracking_footer()) %>
+
+  <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+  
+</body>
+</html>

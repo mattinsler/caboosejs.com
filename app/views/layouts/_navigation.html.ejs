@@ -1,0 +1,23 @@
+<dl id="navigation">
+  <dt>Documentation</dt>
+  <dd>
+    <ul>
+      <% ['overview', 'your-first-app', 'configuration', 'routing', 'controllers', 'views'].forEach(function(slug) { %>
+        <li<%- slug === this.page ? ' class="selected"' : '' %>>
+          <a href="/docs/<%= slug %>"><%= capitalize_words(slug.replace(/-/g, ' ')) %></a>
+        </li>
+      <% }) %>
+    </ul>
+  </dd>
+
+  <dt>Plugins</dt>
+  <dd>
+    <ul>
+      <% ['caboose-model', 'caboose-authentication'].forEach(function(slug) { %>
+        <li<%- slug === this.page ? ' class="selected"' : '' %>>
+          <a href="/plugins/<%= slug %>"><%= slug %></a>
+        </li>
+      <% }) %>
+    </ul>
+  </dd>
+</dl>
