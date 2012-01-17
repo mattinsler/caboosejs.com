@@ -33,5 +33,6 @@ footer .container_16 p {margin-right:0; margin-left:20px;}
 
 code {background:#BFF; padding:1px 5px; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; -opera-border-radius:5px; border:1px solid #ABF;}
 
-.gist .gist-file .gist-data.gist-syntax {border-bottom:none;}
-.gist-meta {display:none;}
+#viewer .gist .gist-file {border:1px solid #4BACBD;}
+#viewer .gist .gist-file .gist-data {border-bottom:none; background-color:#EBFCFF;}
+#viewer .gist-meta {display:none;}
