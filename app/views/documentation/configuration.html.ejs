@@ -3,6 +3,63 @@
 <section class="heading">
   <h1>Configuration</h1>
   <p>
+    The Caboose configuration is inspired by <a href="http://rubyonrails.org">rails</a>, with a distinctly Node twist.
   </p>
   <hr />
+</section>
+
+<section>
+  <h2>Environment</h2>
+  <p>
+    The environment is set through the <code>CABOOSE_ENV</code> environment variable. If CABOOSE_ENV is not set, it will default to <code>development</code>.
+  </p>
+</section>
+
+<section>
+  <h2>Configuration files</h2>
+  <p>
+    Config files are executed during the boot process and are asynchronous. You can change the config object passed in and when you're done,
+    just call <code>next()</code>. The default application config file looks like this:
+    
+    <script src="https://gist.github.com/1629427.js"> </script>
+  </p>
+  
+  <section>
+    <h3>config/application.coffee</h3>
+    <p>
+      The global configuration file. This will always be executed first.
+    </p>
+  </section>
+  
+  <section>
+    <h3>config/environments</h3>
+    <p>
+      All environment-specific configuration files will be located here. Environment-specific config files will be executed after the global config file and operate the same way. Edit the config object passed in and call next().
+    </p>
+    <p>
+      To create a config file for a specific environment, just create a module with the same name as the environment. So for the development environment, config/environments/development.coffee would run.
+    </p>
+    <p>
+      <strong>NOTE:</strong> Like most of Caboose, if you'd like to write your config files in javascript, just rename [environment].coffee to [environment].js.
+    </p>
+  </section>
+  
+  <section>
+    <h3>config/middleware.coffee</h3>
+    <p>
+      This file allows you to customize your entire middleware stack. You are passed the http object and can configure any middleware you'd like. Please note that the Caboose router is used by default and is configured by the routing DSL specified in the config/routes.coffee file.
+    </p>
+    <p>
+      The default middleware file looks like this:
+      
+      <script src="https://gist.github.com/1629471.js"> </script>
+    </p>
+  </section>
+  
+  <section>
+    <h3>config/routes.coffee</h3>
+    <p>
+      This file contains the routing setup for your application. It configures the Caboose <a href="/docs/routing">router</a>.
+    </p>
+  </section>
 </section>
