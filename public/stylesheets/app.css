@@ -31,7 +31,7 @@ footer .container_16 p {margin-right:0; margin-left:20px;}
 #viewer .heading hr {margin:25px 0;}
 #viewer .heading p {color:#888; font-size:1.2em; margin:0;}
 
-code {background:#BFF; padding:1px 5px; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; -opera-border-radius:5px; border:1px solid #ABF;}
+code {background:#EBFCFF; padding:1px 5px; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; -opera-border-radius:5px; border:1px solid #4BACBD;}
 
 #viewer .gist .gist-file {border:1px solid #4BACBD;}
 #viewer .gist .gist-file .gist-data {border-bottom:none; background-color:#EBFCFF;}
