@@ -3,6 +3,96 @@
 <section class="heading">
   <h1>Routing</h1>
   <p>
+    Although Caboose sits on top of <a href="http://expressjs.com/">express</a>, Caboose has it's own router.
   </p>
   <hr />
+</section>
+
+<section>
+  <h2>The basics</h2>
+  <p>
+    The Caboose routing DSL seeks to be flexible and simple. The routes file is loaded as a module and should export a single function.
+    This function have access to the routing DSL methods.
+  </p>
+  <p>
+    Here's a very simple routes.coffee file to demonstrate the structure:
+    
+    <script src="https://gist.github.com/1629146.js"> </script>
+  </p>
+  <p>
+    Each route has 4 properties; The method, path, controller and action.
+  </p>
+  <p>
+    The path must be specified in the first arguments to @route and can optionally include the method. If no method is included it is defaulted to GET. All properties except for the path can also be specified in the second argument.
+  </p>
+  <p>
+    For instance, the following lines are all equivalent.
+    
+    <script src="https://gist.github.com/1629152.js"> </script>
+  </p>
+</section>
+
+<section>
+  <h2>Parameters</h2>
+  <p>
+    Parameters can be specified on routes in the same way as frameworks like <a href="http://expressjs.com/guide.html#routing">express</a>
+    or <a href="http://guides.rubyonrails.org/routing.html#bound-parameters">rails</a> by putting a colon before the route segment.
+    These parameters will then be available from the <code>@params</code> object with a controller action.
+  </p>
+  <p>
+    So for a route like:
+    
+    <script src="https://gist.github.com/1629130.js"> </script>
+  </p>
+  <p>
+    You can then access the user's id from a controller action like this:
+    
+    <script src="https://gist.github.com/1629135.js"> </script>
+  </p>
+  <p>
+    You can also add parameters to any route, by setting them on the options object, like this:
+    
+    <script src="https://gist.github.com/1629158.js"> </script>
+  </p>
+  <p>
+    Any parameters that you set on a route will be available in the @params object from within controller action. So in this case, you could
+    access the codename of the /superheroes/green-lantern from the index action on the SuperheroesController at <code>@params.codename</code>.
+  </p>
+</section>
+
+<section>
+  <h2>Parameter Conditions</h2>
+  <p>
+    Conditions can be set on any parameters in a route. Just pass a conditions object to the route:
+    
+    <script src="https://gist.github.com/1629164.js"> </script>
+  </p>
+</section>
+
+<section>
+  <h2>Resourceful Routing</h2>
+  <p>
+    Resourceful routing is available with the resources method:
+    
+    <script src="https://gist.github.com/1629169.js"> </script>
+  </p>
+  <p>
+    This will create all resourceful routes for the SuperheroesController. This is the equivalent of:
+    
+    <script src="https://gist.github.com/1629171.js"> </script>
+  </p>
+</section>
+
+<section>
+  <h2>Domain Routing</h2>
+  <p>
+    <script src="https://gist.github.com/1629290.js"> </script>
+  </p>
+</section>
+
+<section>
+  <h2>Subdomain Routing</h2>
+  <p>
+    <script src="https://gist.github.com/1629379.js"> </script>
+  </p>
 </section>
