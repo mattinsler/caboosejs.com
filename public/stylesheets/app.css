@@ -1,8 +1,11 @@
 body {background:#212727;}
 
 header {padding:10px;}
-header h1 {font-size:1.4em; margin:0; padding: 0; line-height:18px;}
+header .container_16 h1 {font-size:1.4em; margin:0; padding: 0; line-height:18px; font-weight:normal;}
 header a, header a:link, header a:visited, header a:hover {color: white; text-decoration:none;}
+
+footer {color:#666; text-align:right;}
+footer .container_16 p {margin-right:0; margin-left:20px;}
 
 #documentation {background:#DCE4EB; position:relative;}
 #documentation a, #documentation a:link, #documentation a:visited, #documentation a:hover {color:#444; text-decoration:none;}
@@ -23,7 +26,8 @@ header a, header a:link, header a:visited, header a:hover {color: white; text-de
 #viewer {padding:36px 60px;}
 #documentation #viewer a {color:#A9014B;}
 #viewer h1 {font-size:2.2em; margin-bottom:10px;}
-#viewer h2 {font-size:1.6em;}
+#viewer h2 {font-size:1.6em; margin-top:35px; margin-bottom:5px;}
+#viewer section p:first-of-type {margin-top:0;}
 #viewer .heading hr {margin:25px 0;}
 #viewer .heading p {color:#888; font-size:1.2em; margin:0;}
 

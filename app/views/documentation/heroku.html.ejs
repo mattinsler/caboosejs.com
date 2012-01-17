@@ -1,0 +1,88 @@
+<% page = 'heroku' %>
+
+<section class="heading">
+  <h1>Heroku</h1>
+  <p>
+    Deploying to <a href="http://www.heroku.com/">Heroku</a> is easy!
+  </p>
+  <hr />
+</section>
+
+<section>
+  <h2>Sign up for Heroku</h2>
+  <p>
+    OK, you're on your own here.  Just go to <a href="http://www.heroku.com/">www.heroku.com</a> and sign up.
+  </p>
+</section>
+
+<section>
+  <h2>Install the Heroku CLI</h2>
+  <p>
+    Head over to the <a href="http://devcenter.heroku.com/articles/heroku-command">Heroku Dev Center</a> and install
+    the CLI.
+  </p>
+</section>
+
+<section>
+  <h2>Add a Procfile</h2>
+  <p>
+    So the only change needed to your app is to add a <code>Procfile</code> to the root directory.  For caboose
+    it should look like this:
+  
+    <script src="https://gist.github.com/1625312.js"> </script>
+  </p>
+</section>
+
+<section>
+  <h2>Be sure that your app is setup for git</h2>
+  <p>
+    If your caboose app isn't yet set up to use git, initialize it.
+  
+    <script src="https://gist.github.com/1625231.js"> </script>
+  </p>
+  <p>
+    You can either add it to github for safe keeping, or just keep it on your local system.
+  </p>
+</section>
+
+<section>
+  <h2>Create a new Heroku stack</h2>
+  <p>
+    In your caboose application directory, let's create a new Cedar stack from a custom buildpack.  I've found
+    a github project that keeps up with the latest Node version at
+    <a href="https://github.com/liquid/heroku-buildpack-nodejs">https://github.com/liquid/heroku-buildpack-nodejs</a>,
+    so let's use that buildpack.
+  
+    <script src="https://gist.github.com/1625297.js"> </script>
+  </p>
+</section>
+
+<section>
+  <h2>Set the environment to production</h2>
+  <p>
+    Now that you have a new instance, you need to change the environment.  This is done through setting the
+    <code>CABOOSE_ENV</code> environment variable on your instance.
+  
+    <script src="https://gist.github.com/1625420.js"> </script>
+  </p>
+</section>
+
+<section>
+  <h2>Push to Heroku</h2>
+  <p>
+    You're almost there.  Now you need to <code>git push</code> it to Heroku.
+  
+    <script src="https://gist.github.com/1625319.js"> </script>
+  </p>
+</section>
+
+<section>
+  <h2>All done!</h2>
+  <p>
+    Your application should be up and running on Heroku now.  You can check on it with
+    <code>heroku ps</code> and view the logs with <code>heroku logs</code>.  Alternatively, you can use the
+    <code>caboose console</code> to check out the configuration and run code within your app's environment.
+  
+    <script src="https://gist.github.com/1625356.js"> </script>
+  </p>
+</section>

@@ -2,7 +2,7 @@
   <dt>Documentation</dt>
   <dd>
     <ul>
-      <% ['overview', 'your-first-app', 'configuration', 'routing', 'controllers', 'views'].forEach(function(slug) { %>
+      <% ['overview', 'your-first-app', 'configuration', 'routing', 'controllers', 'views', 'heroku'].forEach(function(slug) { %>
         <li<%- slug === this.page ? ' class="selected"' : '' %>>
           <a href="/docs/<%= slug %>"><%= capitalize_words(slug.replace(/-/g, ' ')) %></a>
         </li>

@@ -7,3 +7,4 @@ class DocumentationController extends ApplicationController
   routing: -> @render()
   controllers: -> @render()
   views: -> @render()
+  heroku: -> @render()
