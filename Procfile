@@ -1,1 +1,1 @@
-web: caboose start
+web: caboose server
