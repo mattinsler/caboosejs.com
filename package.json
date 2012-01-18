@@ -4,10 +4,7 @@
   "private": true,
   "dependencies": {
     "caboose": "latest",
-    "ejs": "latest",
-    "caboose-authentication": "0.0.3"
+    "ejs": "latest"
   },
-  "caboose-plugins": [
-    "caboose-authentication"
-  ]
+  "caboose-plugins": []
 }
