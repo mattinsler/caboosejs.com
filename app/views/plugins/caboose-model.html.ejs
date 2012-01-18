@@ -3,6 +3,189 @@
 <section class="heading">
   <h1>Caboose Model</h1>
   <p>
+    caboose-model is a <a href="http://www.mongodb.org/">MongoDB</a> model library for <a href="http://www.caboosejs.com">caboose</a>.
+    It uses <a href="https://github.com/christkv/node-mongodb-native">node-mongodb-native</a> as the underlying driver.
   </p>
   <hr />
+</section>
+
+<section>
+  <h2>Installation</h2>
+  <p>
+    To install caboose-model, use the <code>caboose plugin install</code> command.
+    
+    <script src="https://gist.github.com/1631810.js"> </script>
+  </p>
+</section>
+
+<section>
+  <h2>Configuration</h2>
+  <p>
+    
+  </p>
+</section>
+
+<section>
+  <h2>Model Definition</h2>
+  <p>
+    <script src="https://gist.github.com/1631894.js"> </script>
+  </p>
+</section>
+
+<section id="finders">
+  <h2>Finders</h2>
+  <p>
+    These methods will retrieve records or metadata from the database and should be the last method you call in a query.
+  </p>
+
+  <section>
+    <h3>first(callback)</h3>
+    <p>
+      Fetches the first record in the current query.
+      
+      <script src="https://gist.github.com/1631808.js"> </script>
+    </p>
+  </section>
+  
+  <section>
+    <h3>array(callback)</h3>
+    <p>
+      Fetches all the records in the current query as an array.
+      
+      <script src="https://gist.github.com/1631838.js"> </script>
+    </p>
+  </section>
+  
+  <section>
+    <h3>each(callback)</h3>
+    <p>
+      Fetches all the records in the current query and calls the callback one record at a time.  When there are no
+      more records, a null will be passed to the callback for both the error and item.
+    </p>
+    <p>
+      <strong>NOTE:</strong> Even if there are no records in the collection, the callback will be invoked once with
+      nulls for both arguments.
+      
+      <script src="https://gist.github.com/1631867.js"> </script>
+    </p>
+  </section>
+  
+  <section>
+    <h3>count(callback)</h3>
+    <p>
+      Counts the records in the current query.
+      
+      <script src="https://gist.github.com/1631893.js"> </script>
+    </p>
+  </section>
+  
+  <section>
+    <h3>distinct(key, callback)</h3>
+    <p>
+      Collects the distinct values for <code>key</code>.
+      
+      <script src="https://gist.github.com/1631902.js"> </script>
+    </p>
+  </section>
+</section>
+
+<section id="modifiers">
+  <h2>Modifiers</h2>
+  <p>
+    These methods modify the records returned by the above <a href="#finders">finders</a>.  They return a query
+    object that can be further modified or executed by a finder.
+  </p>
+
+  <section>
+    <h3>skip(count)</h3>
+    <p>
+      Skips <code>count</code> records in the current query.
+      
+      <script src="https://gist.github.com/1631961.js"> </script>
+    </p>
+  </section>
+  
+  <section>
+    <h3>limit(count)</h3>
+    <p>
+      Limits the current query to <code>count</code> records.
+      
+      <script src="https://gist.github.com/1631975.js"> </script>
+    </p>
+  </section>
+  
+  <section>
+    <h3>sort(fields)</h3>
+    <p>
+      
+    </p>
+  </section>
+  
+  <section>
+    <h3>fields(field_names)</h3>
+    <p>
+      
+    </p>
+  </section>
+</section>
+
+<section id="queries">
+  <h2>Queries</h2>
+  <p>
+    Queries are written just like in the MongoDB Shell, only using the <code>where</code> method.
+  </p>
+
+  <section>
+    <h3>where(query)</h3>
+    <p>
+    </p>
+  </section>
+</section>
+
+<section>
+  <h2></h2>
+  <p>
+  </p>
+  
+  <section>
+    <h3>save(obj, callback)</h3>
+    <p>
+    </p>
+  </section>
+  
+  <section>
+    <h3>update(query, update, options, callback)</h3>
+    <p>
+    </p>
+  </section>
+  
+  <section>
+    <h3>update_multi(query, update, callback)</h3>
+    <p>
+    </p>
+  </section>
+  
+  <section>
+    <h3>upsert(query, update, callback)</h3>
+    <p>
+    </p>
+  </section>
+  
+  <section>
+    <h3>remove(query, callback)</h3>
+    <p>
+    </p>
+  </section>
+  
+  <section>
+    <h3>find_and_modify(options, callback)</h3>
+    <p>
+    </p>
+  </section>
+  
+  <section>
+    <h3>map_reduce(map, reduce, options, callback)</h3>
+    <p>
+    </p>
+  </section>
 </section>
