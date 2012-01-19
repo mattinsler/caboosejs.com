@@ -142,6 +142,11 @@
   <section>
     <h3>where(query)</h3>
     <p>
+      Filters the collection using any options that MonogDB supports.  There is little magic here.  You can use any
+      JSON object that would work in the <code>find()</code> method on the MongoDB shell.  For more information on
+      querying MongoDB, checkout <a href="http://www.mongodb.org/display/DOCS/Advanced+Queries">the docs</a>.
+      
+      <script src="https://gist.github.com/1640786.js"> </script>
     </p>
   </section>
 </section>
@@ -159,25 +164,25 @@
   </section>
   
   <section>
-    <h3>update(query, update, options, callback)</h3>
+    <h3>update(query, update, options, callback = null)</h3>
     <p>
     </p>
   </section>
   
   <section>
-    <h3>update_multi(query, update, callback)</h3>
+    <h3>update_multi(query, update, callback = null)</h3>
     <p>
     </p>
   </section>
   
   <section>
-    <h3>upsert(query, update, callback)</h3>
+    <h3>upsert(query, update, callback = null)</h3>
     <p>
     </p>
   </section>
   
   <section>
-    <h3>remove(query, callback)</h3>
+    <h3>remove(query, callback = null)</h3>
     <p>
     </p>
   </section>
