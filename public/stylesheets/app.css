@@ -32,9 +32,10 @@ footer .container_16 p {margin-right:0; margin-left:20px;}
 #viewer .heading hr {margin:25px 0;}
 #viewer .heading p {color:#888; font-size:1.2em; margin:0;}
 
-#viewer code {background:#EBFCFF; padding:1px 5px; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; -opera-border-radius:5px; border:1px solid #4BACBD;}
+#viewer code {background:#FFFFB5; padding:1px 5px;}
 
 #viewer table {width:100%; border:1px solid #4BACBD;}
+#viewer table thead {border:1px solid #4BACBD;}
 #viewer table th, #viewer table td {text-align:left; padding:5px;}
 #viewer table tbody tr:nth-child(odd) {background:#EEE;}
 

@@ -18,18 +18,84 @@
   </p>
 </section>
 
-<section>
+<section id="configuration">
   <h2>Configuration</h2>
   <p>
+    After installation, there will be a caboose-model.json file in your config directory.  This file holds the configuration for
+    connecting to MongoDB.  The initial value should look something like this.
     
+    <script src="https://gist.github.com/1643612.js"> </script>
+  </p>
+  <p>
+    This should be fine for a while, but eventually you'll need to deploy your app to a server, like <a href="http://www.heroku.com/">Heroku</a>.
+    When this happens, just move that caboose-model.json file into one of the config/environments directories.
+  </p>
+  <p>
+    You can also specify just the <code>url</code>.
+    
+    <script src="https://gist.github.com/1643744.js"> </script>
+  </p>
+  <p>
+    Alternatively (for situations such as Heroku), you can use the config/application.coffee or config/environments/[env].coffee files
+    to set the model configuration like this.
+    
+    <script src="https://gist.github.com/1643754.js"> </script>
   </p>
 </section>
 
 <section>
-  <h2>Model Definition</h2>
+  <h2>Definition</h2>
   <p>
+    Models can simply be defined in coffeescript by extending the <code>Model</code> class.  Here is the basic model that
+    <code>caboose generate model Post</code> will create.
+    
     <script src="https://gist.github.com/1631894.js"> </script>
   </p>
+  <p>
+    Models have attributes and methods.
+  </p>
+  <p>
+    Attributes generally describe the model class.  So above we have a model named <code>Post</code>
+    which should located in the app/models/post.coffee file and will store instances of itself in the <code>post</code> collection.  There are a
+    variety of <a href="#supported_attributes">attributes</a> you can add a model, which can change it's behavior.
+  </p>
+  <p>
+    Methods are actually just an <code>instance</code> attribute with syntactic sugar.  All class methods you define in your model class will
+    just become methods of the model class, like you'd expect.
+  </p>
+  <p>
+    Here's a more complex model to illustrate some of what you can do.
+    
+    <script src="https://gist.github.com/1643435.js"> </script>
+  </p>
+  <p>
+    In the above example, we first import in functionality of the <code>StringHelper</code> (the <code>import</code> method is described <a href="#">here</a>)
+    which we will use in the summary method.
+  </p>
+  <p>
+    Then we define the Post model and store it in the post collection just like the generated model.
+  </p>
+  <p>
+    Next we add a class method named <code>latest_timestamp</code> to the model.  Class methods are defined with the <code>static</code> attribute and
+    are a great way to add shortcut methods like this.  In this case, we could just call <code>Post.latest_timestamp(...)</code> rather than writing
+    out all the query code in a controller.  It's important to realize that latest_timestamp will not be available from instances.  So
+    <code>new Post().latest_timestamp(...)</code> would not work.
+  </p>
+  <p>
+    Finally we add an instance method named <code>summary</code> which uses the StringHelper to provide a summary of the content of the post.  The
+    summary method could have also been defined as
+    
+    <script src="https://gist.github.com/1643709.js"> </script>
+  </p>
+
+  <section id="supported_attributes">
+    <h3>Supported attributes</h3>
+    <p>
+      <code><strong>store_in(collection name)</strong></code> the collection to persist this model to<br>
+      <code><strong>instance(method_name, method)</strong></code> a method to be added to the model prototype<br>
+      <code><strong>static(method_name, method)</strong></code> a method to be added to the model, not available to instances<br>
+    </p>
+  </section>
 </section>
 
 <section id="finders">
@@ -151,9 +217,10 @@
   </section>
 </section>
 
-<section>
-  <h2></h2>
+<section id="actions">
+  <h2>Actions</h2>
   <p>
+    
   </p>
   
   <section>
