@@ -1,0 +1,78 @@
+<% page = 'details' %>
+
+<section class="heading">
+  <h1>Details</h1>
+  <p>
+    These are some specifics to caboose that you may need to know
+  </p>
+  <hr />
+</section>
+
+<section>
+  <h2>Application directory structure</h2>
+  <p>
+    <pre>
+/project_root/
+|-- app/
+|   |-- controllers/
+|   |   |-- application_controller.coffee
+|   |-- helpers/
+|   |   |-- application_helper.coffee
+|   |-- views/
+|   |   |-- application/
+|   |   |   |-- index.html.ejs
+|   |   |-- layouts/
+|   |       |-- application.html.ejs
+|-- config/
+|   |-- application.coffee
+|   |-- environments/
+|   |   |-- development.coffee
+|   |   |-- production.coffee
+|   |-- initializers/
+|   |-- middleware.coffee
+|   |-- routes.coffee
+|-- lib/
+|-- package.json
+|-- public/
+|-- README.md
+    </pre>
+  </p>
+</section>
+
+<section>
+  <h2>Naming conventions matter</h2>
+  <p>
+    Throughout caboose, file and class naming is very important. These conventions allow for flexibility and ease of use.
+  </p>
+  <p>
+    In some cases, files with js and coffee extensions are used completely differently. These cases will be identified in the documentation. In all other cases all code can be written in javascript rather than coffeescript. Just change the file extension to js and go to town.
+  </p>
+</section>
+
+<section>
+  <h2>The boot process</h2>
+  <p>
+    <ul>
+      <li>Parse routes from <code>config/routes.coffee</code></li>
+      <li>
+        Read json files into config
+        <ul>
+          <li>Read all json files in config directory</li>
+          <li>Read all json files in config/environments/[current environment] directory</li>
+        </ul>
+      </li>
+      <li>
+        Execute configuration files
+        <ul>
+          <li>Execute config/application.coffee</li>
+          <li>Execute config/environments/[current environment].coffee (if it exists)</li>
+        </ul>
+      </li>
+      <li>Execute all initializers in config/initializers in alphanumeric order</li>
+      <li>Create http server using express</li>
+      <li>Execute config/middleware.coffee</li>
+      <li>Tell the http server to start listening on the configured port</li>
+      <li>Execute all post_boot hooks configured during initialization</li>
+    </ul>
+  </p>
+</section>
