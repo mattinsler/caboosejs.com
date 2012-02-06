@@ -14,7 +14,9 @@
   <p>
     To install caboose-model, use the <code>caboose plugin install</code> command.
     
-    <script src="https://gist.github.com/1631810.js"> </script>
+    <%- highlight_start('bash') %>
+$ caboose plugin install caboose-model
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -24,7 +26,13 @@
     After installation, there will be a caboose-model.json file in your config directory.  This file holds the configuration for
     connecting to MongoDB.  The initial value should look something like this.
     
-    <script src="https://gist.github.com/1643612.js"> </script>
+    <%- highlight_start('javascript') %>
+{
+  "host": "localhost",
+  "port": 27017,
+  "database": "new-app"
+}
+    <%- highlight_end() %>
   </p>
   <p>
     This should be fine for a while, but eventually you'll need to deploy your app to a server, like <a href="http://www.heroku.com/">Heroku</a>.
@@ -33,13 +41,23 @@
   <p>
     You can also specify just the <code>url</code>.
     
-    <script src="https://gist.github.com/1643744.js"> </script>
+    <%- highlight_start('javascript') %>
+{
+  "url": "mongodb://user:pass@server:port/database"
+}
+    <%- highlight_end() %>
   </p>
   <p>
     Alternatively (for situations such as Heroku), you can use the config/application.coffee or config/environments/[env].coffee files
     to set the model configuration like this.
     
-    <script src="https://gist.github.com/1643754.js"> </script>
+    <%- highlight_start('coffeescript') %>
+module.exports = (config, next) ->
+  config['caboose-model'] =
+    url: process.env.MONGOHQ_URL
+
+  next()
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -49,7 +67,10 @@
     Models can simply be defined in coffeescript by extending the <code>Model</code> class.  Here is the basic model that
     <code>caboose generate model Post</code> will create.
     
-    <script src="https://gist.github.com/1631894.js"> </script>
+    <%- highlight_start('coffeescript') %>
+class Post extends Model
+  store_in 'post'
+    <%- highlight_end() %>
   </p>
   <p>
     Models have attributes and methods.
@@ -66,7 +87,20 @@
   <p>
     Here's a more complex model to illustrate some of what you can do.
     
-    <script src="https://gist.github.com/1643435.js"> </script>
+    <%- highlight_start('coffeescript') %>
+import 'StringHelper'
+
+class Post extends Model
+  store_in 'post'
+
+  static 'latest_timestamp', (callback) ->
+    @sort({posted_at: -1}).fields({posted_at: 1}).first (err, post) ->
+      return callback(err) if err?
+      callback err, post.posted_at
+
+  summary: ->
+    StringHelper.summarize(@content)
+    <%- highlight_end() %>
   </p>
   <p>
     In the above example, we first import in functionality of the <code>StringHelper</code> (the <code>import</code> method is described <a href="#">here</a>)
@@ -85,7 +119,10 @@
     Finally we add an instance method named <code>summary</code> which uses the StringHelper to provide a summary of the content of the post.  The
     summary method could have also been defined as
     
-    <script src="https://gist.github.com/1643709.js"> </script>
+    <%- highlight_start('coffeescript') %>
+instance 'summary', ->
+  StringHelper.summarize(@content)
+    <%- highlight_end() %>
   </p>
 
   <section id="supported_attributes">
@@ -109,7 +146,15 @@
     <p>
       Fetches the first record in the current query.
       
-      <script src="https://gist.github.com/1631808.js"> </script>
+      <%- highlight_start('coffeescript') %>
+# Retrieve the first Post object
+Post.first (err, post) ->
+  # post is either null or a Post object
+
+# Retrieve the first Post object in the query
+Post.where(...).first (err, post) ->
+  # post is either null or a Post object
+      <%- highlight_end() %>
     </p>
   </section>
   
@@ -118,7 +163,15 @@
     <p>
       Fetches all the records in the current query as an array.
       
-      <script src="https://gist.github.com/1631838.js"> </script>
+      <%- highlight_start('coffeescript') %>
+# Retrieve all Post objects
+Post.array (err, posts) ->
+  # posts is either [] or an array of Post objects
+
+# Retrieve all Post objects in the query
+Post.where(...).array (err, posts) ->
+  # posts is either [] or an array of Post objects
+      <%- highlight_end() %>
     </p>
   </section>
   
@@ -132,7 +185,17 @@
       <strong>NOTE:</strong> Even if there are no records in the collection, the callback will be invoked once with
       nulls for both arguments.
       
-      <script src="https://gist.github.com/1631867.js"> </script>
+      <%- highlight_start('coffeescript') %>
+# Retrieve all Post objects one at a time (streaming)
+Post.each (err, post) ->
+  # if there are no more posts, post is null
+  # otherwise, post is a Post object
+
+# Retrieve all Post objects one at a time (streaming) in the query
+Post.where(...).each (err, post) ->
+  # if there are no more posts, post is null
+  # otherwise, post is a Post object
+      <%- highlight_end() %>
     </p>
   </section>
   
@@ -141,7 +204,15 @@
     <p>
       Counts the records in the current query.
       
-      <script src="https://gist.github.com/1631893.js"> </script>
+      <%- highlight_start('coffeescript') %>
+# Counts the records in the post collection
+Post.count (err, count) ->
+  console.log "There are #{count} post(s)."
+
+# Filters and counts the records in the post collection
+Post.where(...).count (err, count) ->
+  console.log "There are #{count} filtered post(s)."
+      <%- highlight_end() %>
     </p>
   </section>
   
@@ -150,7 +221,15 @@
     <p>
       Collects the distinct values for <code>key</code>.
       
-      <script src="https://gist.github.com/1631902.js"> </script>
+      <%- highlight_start('coffeescript') %>
+# Collect the distinct titles from all posts
+Post.distinct 'title', (err, titles) ->
+  # titles is an array of the distinct post titles
+
+# Collect the distinct titles from all posts in the query
+Post.where(...).distinct 'title', (err, titles) ->
+  # titles is an array of the distinct post titles in the query
+      <%- highlight_end() %>
     </p>
   </section>
 </section>
@@ -167,7 +246,15 @@
     <p>
       Skips <code>count</code> records in the current query.
       
-      <script src="https://gist.github.com/1631961.js"> </script>
+      <%- highlight_start('coffeescript') %>
+# Skip the first 5 posts
+Post.skip(5).first (err, post) ->
+  # post is the sixth post
+
+# Filter then skip the first 5 posts
+Post.where(...).skip(5).first (err, post) ->
+  # post is sixth post in this query
+      <%- highlight_end() %>
     </p>
   </section>
   
@@ -176,7 +263,15 @@
     <p>
       Limits the current query to <code>count</code> records.
       
-      <script src="https://gist.github.com/1631975.js"> </script>
+      <%- highlight_start('coffeescript') %>
+# Retrieves the first 5 posts
+Post.limit(5).array (err, posts) ->
+  # posts is an array of Post objects
+
+# Filter then retrieve the next 5 posts
+Post.where(...).limit(5).array (err, posts) ->
+  # posts is an array of Post objects
+      <%- highlight_end() %>
     </p>
   </section>
   
@@ -185,7 +280,15 @@
     <p>
       Sorts the records on the MongoDB side.
       
-      <script src="https://gist.github.com/1636404.js"> </script>
+      <%- highlight_start('coffeescript') %>
+# Retrieves all post records sorted by title descending
+Post.sort({title: -1}).array (err, posts) ->
+  # posts is an array of Post objects
+
+# Filter then sort all posts by title ascending, created_at descending
+Post.where(...).sort({title: 1, created_at: -1}).array (err, posts) ->
+  # posts is an array of Post objects
+      <%- highlight_end() %>
     </p>
   </section>
   
@@ -194,7 +297,15 @@
     <p>
       Choose the fields to include or exclude.
       
-      <script src="https://gist.github.com/1637563.js"> </script>
+      <%- highlight_start('coffeescript') %>
+# Retrieve the first record
+Post.fields({title: 1}).first (err, post) ->
+  # Post object with only the _id and title fields
+
+# Filter then retrieve the first record
+Post.where(...).fields({title: 0}).array (err, posts) ->
+  # Post object without the title field
+      <%- highlight_end() %>
     </p>
   </section>
 </section>
@@ -212,7 +323,15 @@
       JSON object that would work in the <code>find()</code> method on the MongoDB shell.  For more information on
       querying MongoDB, checkout <a href="http://www.mongodb.org/display/DOCS/Advanced+Queries">the docs</a>.
       
-      <script src="https://gist.github.com/1640786.js"> </script>
+      <%- highlight_start('coffeescript') %>
+# Find all posts authored by Matt Insler with
+# tags caboose or mongodb
+Post.where({
+  author: 'Matt Insler',
+  tags: {$in: ['caboose', 'mongodb']}
+}).array (err, posts) ->
+  # Post object without the title field
+      <%- highlight_end() %>
     </p>
   </section>
 </section>

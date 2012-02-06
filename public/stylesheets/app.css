@@ -43,3 +43,8 @@ footer .container_16 p {margin-right:0; margin-left:20px;}
 #viewer .gist .gist-file {border:1px solid #4BACBD;}
 #viewer .gist .gist-file .gist-data {border-bottom:none; background-color:#EBFCFF;}
 #viewer .gist-meta {display:none;}
+
+#viewer pre.highlight {padding:5px;}
+
+#viewer .highlight {border:1px solid #4BACBD; background-color:#EBFCFF;}
+#viewer .highlight>pre {margin:5px;}

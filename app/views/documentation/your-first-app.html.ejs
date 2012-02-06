@@ -16,7 +16,9 @@
     Don't worry, I'll wait...  OK, now you'll need two things, <a href="http://www.mongodb.org">MongoDB</a>, <a href="http://www.mongodb.org/display/DOCS/Quickstart">which you can install and start with instructions here</a>,
     and the caboose module, which you can install like this:
   
-    <script src="https://gist.github.com/1610730.js"> </script>
+    <%- highlight_start('bash') %>
+$ npm install caboose
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -26,7 +28,10 @@
     First, let's create a new caboose application.  Running <code>caboose create</code> will create a new directory
     and fill it with the initial files for a caboose stack.
   
-    <script src="https://gist.github.com/1613471.js?file=gistfile1.sh"></script>
+    <%- highlight_start('bash') %>
+$ caboose create blog
+$ cd blog
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -35,7 +40,9 @@
   <p>
     To create a basic controller (very very basic), we can use the <code>caboose generate controller</code> command.
     
-    <script src="https://gist.github.com/1645889.js"> </script>
+    <%- highlight_start('bash') %>
+$ caboose generate controller Posts
+    <%- highlight_end() %>
   </p>
   <p>
     This controller is barely functional, so let's add some functionality!
@@ -48,7 +55,9 @@
     First, we'll add a simple index page.  Since there's no data needed, we can just render the page right away.
     
     <h4>blog/app/controllers/posts_controller.coffee</h4>
-    <script src="https://gist.github.com/1646100.js"> </script>
+    <%- highlight_start('coffeescript') %>
+  index: -> @render()
+    <%- highlight_end() %>
   </p>
   <p>
     Next we'll add a view for this action.  Create a file in the app/views/posts directory named
@@ -57,7 +66,13 @@
     saying that this is the view for the index action, html format and using the ejs rendering engine.
     
     <h4>blog/app/views/posts/index.html.ejs</h4>
-    <script src="https://gist.github.com/1646139.js"> </script>
+    <%- highlight_start('html+erb') %>
+<h1>My Blog</h1>
+
+<p>Welcome to my blog!</p>
+
+<p>To create a new post &lt;%- link_to('click here', '/posts/new') %&gt;</p>
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -68,7 +83,11 @@
     file and let's add <code>@resources 'posts'</code> to it.
   
     <h4>blog/config/routes.coffee</h4>
-    <script src="https://gist.github.com/1619919.js"> </script>
+    <%- highlight_start('coffeescript') %>
+module.exports = ->
+  @route '/', 'home'
+  @resources 'posts'
+    <%- highlight_end() %>
   </p>
   <p>
     Resource routes create 7 actions: <code>index</code>, <code>new</code>, <code>create</code>, <code>show</code>,
@@ -139,13 +158,31 @@
     the controller this time, here's a simple view that we can name new.html.ejs.
     
     <h4>blog/app/views/posts/new.html.ejs</h4>
-    <script src="https://gist.github.com/1646175.js"> </script>
+    <%- highlight_start('html+erb') %>
+<h1>New Post</h1>
+
+<form id="post" action="/posts" method="POST">
+  <p>
+    <label for="post[title]">Title:</label>
+    <input type="text" name="post[title]" />
+  </p>
+  <p>
+    <label for="post[body]">Body:</label>
+    <textarea name="post[body]"></textarea>
+  </p>
+  <p>
+    <input type="submit" value="Create" />
+  </p>
+</form>
+    <%- highlight_end() %>
   </p>
   <p>
     Great!  This is a simple page again, so our controller action doesn&apos;t need to do anything complex here either.
     
     <h4>blog/app/controllers/posts_controller.coffee</h4>
-    <script src="https://gist.github.com/1646206.js"> </script>
+    <%- highlight_start('coffeescript') %>
+  new: -> @render()
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -156,7 +193,23 @@
     the controller this time, here's a simple view that we can name new.html.ejs.
     
     <h4>blog/app/views/posts/new.html.ejs</h4>
-    <script src="https://gist.github.com/1646175.js"> </script>
+    <%- highlight_start('html+erb') %>
+<h1>New Post</h1>
+
+<form id="post" action="/posts" method="POST">
+  <p>
+    <label for="post[title]">Title:</label>
+    <input type="text" name="post[title]" />
+  </p>
+  <p>
+    <label for="post[body]">Body:</label>
+    <textarea name="post[body]"></textarea>
+  </p>
+  <p>
+    <input type="submit" value="Create" />
+  </p>
+</form>
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -168,13 +221,27 @@
     command.  This command will locally install the <a href="/plugins/caboose-model">caboose-model</a> module using
     <a href="http://npmjs.org/">npm</a> and configure your project to use the plugin.
   
-    <script src="https://gist.github.com/1615356.js"> </script>
+    <%- highlight_start('bash') %>
+$ caboose plugin install caboose-model
+    <%- highlight_end() %>
   </p>
   <p>
     Let's look at what caboose plugin install does.  Your <code>package.json</code> should look like this now:
   
     <h4>blog/package.json</h4>
-    <script src="https://gist.github.com/1618985.js"> </script>
+    <%- highlight_start('javascript') %>
+{
+  "name": "blog",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "caboose-model": "0.1.1"
+  },
+  "caboose-plugins": [
+    "caboose-model"
+  ]
+}
+    <%- highlight_end() %>
   </p>
   <p>
     The plugin install script will add the current version of the npm module to your dependencies and then append
@@ -193,13 +260,18 @@
     <code>caboose generate model</code> command to do this, which creates a basic model in coffeescript.  You never need to
     use this command line helper, but it's nice when you forget.
   
-    <script src="https://gist.github.com/1619742.js"> </script>
+    <%- highlight_start('bash') %>
+$ caboose generate model Post
+    <%- highlight_end() %>
   </p>
   <p>
     So what does that basic model look like?  If we open up app/models/post.coffee now, we should see
   
     <h4>blog/app/models/post.coffee</h4>
-    <script src="https://gist.github.com/1619757.js"> </script>
+    <%- highlight_start('coffeescript') %>
+class Post extends Model
+  store_in 'post'
+    <%- highlight_end() %>
   </p>
   <p>
     All models must extend <code>Model</code>, which provides the basic functionality you'd expect from a MongoDB
@@ -210,11 +282,45 @@
     That's all that we need!  Model objects don't need to be defined up front.  They basically act like a MongoDB object
     does in the shell.  You can add any data you want.
   </p>
-</section>
-
-<section>
   <p>
-    <script src="https://gist.github.com/1619786.js"> </script>
+    <%- highlight_start('coffeescript') %>
+import 'Post'
+
+class PostsController extends Controller
+  before_filter 'get_post', {only: ['show', 'edit', 'update']}
+
+  get_post: (next) ->
+    Post.where({_id: @params.id}).first (err, post) =>
+      return next(err) if err?
+      return next(new Error("Failed to load post #{@params.id}")) unless post?
+      @post = post
+      next()
+
+  index: ->
+    @render()
+
+  new: ->
+    @post = {}
+    @render 'edit'
+
+  create: ->
+    @body.post.created_at = new Date()
+    Post.save @body.post, (err, post) =>
+      @redirect_to "/posts/#{post._id}", {
+        info: "Successfully created post #{post.title}"
+      }
+
+  show: ->
+    @render '_post'
+
+  edit: ->
+    @render()
+
+  update: ->
+    @post.update {$set: @body.post}, (err) =>
+      return @error(err) if err?
+      @redirect_to "/posts/#{@post._id}", {info: 'Successfully updated post'}
+    <%- highlight_end() %>
   </p>
   <p>
     Let's break this down a bit.  All controllers eventually extend <code>Controller</code>, be it directly or through
@@ -227,7 +333,11 @@
     when each of those actions are called, the id parameter will be filled in with a value from the URL.  These route paramters
     are accessible via the <code>@params</code> object within the controller.  For instance, the show method could look like this:
   
-    <script src="https://gist.github.com/1619968.js"> </script>
+    <%- highlight_start('coffeescript') %>
+  show: ->
+    console.log @params.id
+    @render()
+    <%- highlight_end() %>
   </p>
   <p>
     When someone goes to the URL at /posts/12345, this will print 12345 to the console and then render.

@@ -16,8 +16,17 @@
   </p>
   <p>
     Here's a very simple routes.coffee file to demonstrate the structure:
-    
-    <script src="https://gist.github.com/1629146.js"> </script>
+
+    <%- highlight_start('coffeescript') %>    
+module.exports = ->
+  # Route requests for GET / to the ApplicationController's index action
+  @route '/', 'application'
+
+  # Route requests for GET /posts to the PostsController's index action
+  @route '/posts', 'posts'
+  # Route requests for POST /posts to the PostsController's create action
+  @route 'post /posts', 'posts#create'
+    <%- highlight_end() %>
   </p>
   <p>
     Each route has 4 properties; The method, path, controller and action.
@@ -28,7 +37,18 @@
   <p>
     For instance, the following lines are all equivalent.
     
-    <script src="https://gist.github.com/1629152.js"> </script>
+    <%- highlight_start('coffeescript') %>
+@route     '/path', 'controller'
+@route 'get /path', 'controller'
+@route     '/path', 'controller', {method: 'get', action: 'index'}
+@route 'get /path', 'controller', {action: 'index'}
+
+@route     '/path', {controller: 'controller'}
+@route     '/path', {controller: 'controller', method: 'get'}
+@route     '/path', {controller: 'controller', action: 'index'}
+@route     '/path', {controller: 'controller', method: 'get', action: 'index'}
+@route 'get /path', {controller: 'controller', action: 'index'}
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -42,17 +62,28 @@
   <p>
     So for a route like:
     
-    <script src="https://gist.github.com/1629130.js"> </script>
+    <%- highlight_start('coffeescript') %>
+@route '/users/:id', 'users#show'
+    <%- highlight_end() %>
   </p>
   <p>
     You can then access the user's id from a controller action like this:
     
-    <script src="https://gist.github.com/1629135.js"> </script>
+    <%- highlight_start('coffeescript') %>
+class UsersController extends Controller
+  show: ->
+    console.log "The user's id is #{@params.id}"
+    @render()
+    <%- highlight_end() %>
   </p>
   <p>
     You can also add parameters to any route, by setting them on the options object, like this:
     
-    <script src="https://gist.github.com/1629158.js"> </script>
+    <%- highlight_start('coffeescript') %>
+@route '/superheroes/green-lantern', 'superheroes', {
+  codename: 'green lantern'
+}
+    <%- highlight_end() %>
   </p>
   <p>
     Any parameters that you set on a route will be available in the @params object from within controller action. So in this case, you could
@@ -65,7 +96,32 @@
   <p>
     Conditions can be set on any parameters in a route. Just pass a conditions object to the route:
     
-    <script src="https://gist.github.com/1629164.js"> </script>
+    <%- highlight_start('coffeescript') %>
+# Restrict id to the string 'green-lantern'
+@route '/superheroes/:id', 'superheroes#show', {
+  conditions: {':id': 'green-lantern'}
+}
+
+# Restrict id to any of the strings 'green-lantern', 'alan-scott' or 'hal-jordan'
+@route '/superheroes/:id', 'superheroes#show', {
+  conditions: {
+    ':id': ['green-lantern', 'alan-scott', 'hal-jordan']
+  }
+}
+
+# Restrict the id to any string matching the regular expression /green/i
+@route '/superheroes/:id', 'superheroes#show', {
+  conditions: {':id': /green/i}
+}
+
+# Restrict the id to an integer
+@route '/superheroes/:id', 'superheroes#show', {
+  conditions: {
+    ':id': (id, request) ->
+      parseInt(id).toString() is id
+  }
+}
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -74,25 +130,86 @@
   <p>
     Resourceful routing is available with the resources method:
     
-    <script src="https://gist.github.com/1629169.js"> </script>
+    <%- highlight_start('coffeescript') %>
+@resources 'superheroes'
+    <%- highlight_end() %>
   </p>
   <p>
     This will create all resourceful routes for the SuperheroesController. This is the equivalent of:
     
-    <script src="https://gist.github.com/1629171.js"> </script>
+    <%- highlight_start('coffeescript') %>
+@route        '/superheroes',          'superheroes#index'
+@route        '/superheroes/new',      'superheroes#new'
+@route 'post   /superheroes',          'superheroes#create'
+@route        '/superheroes/:id',      'superheroes#show'
+@route        '/superheroes/:id/edit', 'superheroes#edit'
+@route 'put    /superheroes/:id',      'superheroes#update'
+@route 'delete /superheroes/:id',      'superheroes#destroy'
+    <%- highlight_end() %>
+  </p>
+  <p>
+    Resources can also be embedded.
+    
+    <%- highlight_start('coffeescript') %>
+@resources 'users', ->
+  @resources 'posts'
+    <%- highlight_end() %>
+  </p>
+  <p>
+    This will create all resourceful routes for both the UsersController and the PostsController. This is the equivalent of:
+
+    <%- highlight_start('coffeescript') %>
+@route        '/users',          'users#index'
+@route        '/users/new',      'users#new'
+@route 'post   /users',          'users#create'
+@route        '/users/:id',      'users#show'
+@route        '/users/:id/edit', 'users#edit'
+@route 'put    /users/:id',      'users#update'
+@route 'delete /users/:id',      'users#destroy'
+@route        '/users/:users_id/posts',          'posts#index'
+@route        '/users/:users_id/posts/new',      'posts#new'
+@route 'post   /users/:users_id/posts',          'posts#create'
+@route        '/users/:users_id/posts/:id',      'posts#show'
+@route        '/users/:users_id/posts/:id/edit', 'posts#edit'
+@route 'put    /users/:users_id/posts/:id',      'posts#update'
+@route 'delete /users/:users_id/posts/:id',      'posts#destroy'
+    <%- highlight_end() %>
   </p>
 </section>
 
 <section>
   <h2>Domain Routing</h2>
   <p>
-    <script src="https://gist.github.com/1629290.js"> </script>
+    <%- highlight_start('coffeescript') %>
+@domain 'caboosejs.com', ->
+  @route '/', 'caboosejs_com'
+
+@domain 'caboosejs.org' ->
+  @route '/', 'caboosejs_org'
+
+@route '/foo', 'foo', {
+  conditions: {domain: 'caboosejs.com'}
+}
+    <%- highlight_end() %>
   </p>
 </section>
 
 <section>
   <h2>Subdomain Routing</h2>
   <p>
-    <script src="https://gist.github.com/1629379.js"> </script>
+    <%- highlight_start('coffeescript') %>
+@subdomain 'www', ->
+  @route '/', 'caboosejs_com'
+
+@subdomain ((subdomain, request) ->
+    # put the subdomain into the params object
+    request.params.codename = subdomain
+  ), ->
+  @route '/', 'caboosejs_org'
+
+@route '/foo', 'foo', {
+  conditions: {subdomain: 'foo'}
+}
+    <%- highlight_end() %>
   </p>
 </section>

@@ -21,7 +21,14 @@
     Config files are executed during the boot process and are asynchronous. You can change the config object passed in and when you're done,
     just call <code>next()</code>. The default application config file looks like this:
     
-    <script src="https://gist.github.com/1629427.js"> </script>
+    <%- highlight_start('coffeescript') %>
+module.exports = (config, next) ->
+  config.http =
+    enabled: true
+    port: process.env.PORT || 3000
+
+  next()
+    <%- highlight_end() %>
   </p>
   
   <section>
@@ -52,7 +59,17 @@
     <p>
       The default middleware file looks like this:
       
-      <script src="https://gist.github.com/1629471.js"> </script>
+      <%- highlight_start('coffeescript') %>
+express = require 'express'
+
+module.exports = (http) ->
+  http.use express.bodyParser()
+  http.use express.methodOverride()
+  http.use express.cookieParser()
+  http.use express.session(secret: 'some kind of random string')
+  http.use -> Caboose.app.router.route.apply(Caboose.app.router, arguments)
+  http.use express.static Caboose.root.join('public').path
+      <%- highlight_end() %>
     </p>
   </section>
   

@@ -3,13 +3,38 @@
 <section class="heading">
   <h1>Controllers</h1>
   <p>
-    Controllers in Caboose are very similar to those in <a href="http://guides.rubyonrails.org/action_controller_overview.html">rails</a>
+    Controllers in Caboose are inspired by <a href="http://guides.rubyonrails.org/action_controller_overview.html">rails</a> and will look very similar.
   </p>
   <hr />
 </section>
 
 <section>
-  <h2></h2>
   <p>
+    Controllers are the glue that connect the views with the routing system.  They are primarily responsible for dealing with models,
+    collecting and arranging data, backend routing, and view determination.  You should aim to have short controllers and embed most of your
+    logic in other functional units like models or helpers and just coordinate and translate in the controller.
   </p>
+</section>
+
+<section>
+  <h2>Creating a new Controller</h2>
+  <p>
+    Caboose applications start out with an <code>ApplicationController</code> which serves to be the root controller that all others in
+    your application inherit from.  This is not necessary, but is a good pattern to follow.  The ApplicationController is a place to
+    put all of the filters and helpers that will be common to all controllers within your application.
+  </p>
+  <p>
+    The ApplicationController inherits from <code>Controller</code> which contains the methods 
+  </p>
+  <p>
+    To create a new 
+    Controllers can be created on the command line.
+    
+    <%- highlight_start('bash') %>
+$ caboose generate controller Posts
+    <%- highlight_end() %>
+  </p>
+  <!-- <p>
+    Or just 
+  </p> -->
 </section>

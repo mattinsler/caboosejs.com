@@ -13,22 +13,65 @@
 <section>
   <h2>Installation</h2>
   <p>
-    <script src="https://gist.github.com/1610730.js"> </script>
+    <%- highlight_start('bash') %>
+$ npm install caboose
+    <%- highlight_end() %>
   </p>
 </section>
 
 <section>
   <h2>Quickstart</h2>
   <p>
-    <script src="https://gist.github.com/1610746.js"> </script>
+    <%- highlight_start('bash') %>
+$ caboose new app_name
+$ cd app_name
+$ caboose server
+    <%- highlight_end() %>
   </p>
 </section>
 
 <section>
+  <h2>Background</h2>
+  <p>
+    Caboose is the product of many apps I&apos;ve built.  Most sites I've worked on don't require much more than a simple MVC setup.
+    I end up building the same structure over and over again using the same set of tools.  Then I started working with
+    <a href="http://rubyonrails.org/">Ruby on Rails</a> and realized that all that boilerplate code is taken care of for me.  Rails
+    makes it easy to concentrate on the business logic, not the core plumbing.  I liked the simplicity and started building caboose to
+    scratch my own itch.
+  </p>
+  <p>
+    It really comes down to how I like to work.  I believe in simple, predictable architecture and making my life easier.  Many of the
+    features in caboose are absolutely unnecessary, but they are just the way I like to work.  I know most of the node community supports
+    a POSIX-like structure of many small packages that you can assemble into your application.  I think this works incredibly well, but forces
+    you to evaluate and learn many different packages to create a single app.  My personal preference is to be productive as quickly as
+    possible and find new and interesting packages when I need something more complex.  I built caboose to handle that 80% case when you just
+    need something that works.  Anything further and you'll need to dive deep, just like any other framework out there.
+  </p>
+  <p>
+    Hopefully this is useful to some people.  If so, please drop me a line.
+  </p>
+  <p>
+    Actually, if this is not useful to you and/or you completely hate it for any reason, please drop me a line!
+  </p>
+  <p>
+    <%- link_to('Matt Insler (matt.insler@gmail.com)', 'mailto:matt.insler@gmail.com') %>
+  </p>
+</section>
+
+<section>
+  <h2>Examples</h2>
+  <p>
+    <ul>
+      <li><%- link_to('Blog example', 'https://github.com/mattinsler/caboose/tree/master/examples/blog') %></li>
+    </ul>
+  </p>
+</section>
+
+<!-- <section>
   <h2>Contributors</h2>
   <p>
     <ul>
       <li>Matt Insler (<a href="http://github.com/mattinsler">mattinsler</a>)</li>
     </ul>
   </p>
-</section>
+</section> -->

@@ -29,7 +29,9 @@
     So the only change needed to your app is to add a <code>Procfile</code> to the root directory.  For caboose
     it should look like this:
   
-    <script src="https://gist.github.com/1625312.js"> </script>
+    <%- highlight_start() %>
+web: caboose server
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -38,7 +40,11 @@
   <p>
     If your caboose app isn't yet set up to use git, initialize it.
   
-    <script src="https://gist.github.com/1625231.js"> </script>
+    <%- highlight_start('bash') %>
+$ git init
+$ git add .
+$ git commit -m 'initial commit'
+    <%- highlight_end() %>
   </p>
   <p>
     You can either add it to github for safe keeping, or just keep it on your local system.
@@ -53,7 +59,9 @@
     <a href="https://github.com/liquid/heroku-buildpack-nodejs">https://github.com/liquid/heroku-buildpack-nodejs</a>,
     so let's use that buildpack.
   
-    <script src="https://gist.github.com/1625297.js"> </script>
+    <%- highlight_start('bash') %>
+$ heroku create --stack cedar --buildpack https://github.com/liquid/heroku-buildpack-nodejs.git
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -63,7 +71,9 @@
     Now that you have a new instance, you need to change the environment.  This is done through setting the
     <code>CABOOSE_ENV</code> environment variable on your instance.
   
-    <script src="https://gist.github.com/1625420.js"> </script>
+    <%- highlight_start('bash') %>
+$ heroku config:set CABOOSE_ENV=production
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -72,7 +82,9 @@
   <p>
     You're almost there.  Now you need to <code>git push</code> it to Heroku.
   
-    <script src="https://gist.github.com/1625319.js"> </script>
+    <%- highlight_start('bash') %>
+$ git push heroku master
+    <%- highlight_end() %>
   </p>
 </section>
 
@@ -83,6 +95,8 @@
     <code>heroku ps</code> and view the logs with <code>heroku logs</code>.  Alternatively, you can use the
     <code>caboose console</code> to check out the configuration and run code within your app's environment.
   
-    <script src="https://gist.github.com/1625356.js"> </script>
+    <%- highlight_start('bash') %>
+$ heroku run caboose console
+    <%- highlight_end() %>
   </p>
 </section>

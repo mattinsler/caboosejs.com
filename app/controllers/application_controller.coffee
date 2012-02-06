@@ -1,7 +1,9 @@
 import 'TrackingHelper'
+import 'SyntaxHighlighterHelper'
 
 class ApplicationController extends Controller
   helper TrackingHelper
+  helper SyntaxHighlighterHelper
   helper {
     capitalize_words: (value) ->
       value
