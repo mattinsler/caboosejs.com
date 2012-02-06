@@ -5,7 +5,8 @@
   "dependencies": {
     "caboose": "latest",
     "ejs": "latest",
-    "eco": "1.1.0-rc-3"
+    "eco": "1.1.0-rc-3",
+    "pygments": "latest"
   },
   "caboose-plugins": []
 }
