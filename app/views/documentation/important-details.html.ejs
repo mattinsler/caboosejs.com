@@ -1,7 +1,7 @@
-<% page = 'details' %>
+<% page = 'important-details' %>
 
 <section class="heading">
-  <h1>Details</h1>
+  <h1>Important Details</h1>
   <p>
     These are some specifics to caboose that you may need to know
   </p>
@@ -39,13 +39,43 @@
   </p>
 </section>
 
-<section>
+<section id="naming-conventions-matter">
   <h2>Naming conventions matter</h2>
   <p>
     Throughout caboose, file and class naming is very important. These conventions allow for flexibility and ease of use.
   </p>
   <p>
     In some cases, files with js and coffee extensions are used completely differently. These cases will be identified in the documentation. In all other cases all code can be written in javascript rather than coffeescript. Just change the file extension to js and go to town.
+  </p>
+</section>
+
+<section>
+  <h2>The <code>import</code> keyword</h2>
+  <p>
+    Caboose introduces the import keyword as an easy and concise way to pull in controllers and helpers.
+  </p>
+  <p>
+    Basically,
+    
+    <%- highlight_start('coffeescript') %>
+import 'SomeController'
+import 'SomeViewHelper'
+    <%- highlight_end() %>
+  </p>
+  <p>
+    actually translates to
+    
+    <%- highlight_start('coffeescript') %>
+SomeController = Caboose.get('SomeController')
+SomeViewHelper = Caboose.get('SomeViewHelper')
+    <%- highlight_end() %>
+  </p>
+  <p>
+    The import keyword can be extended to recognize other modules too.  The <%- link_to('caboose-model', '/plugins/caboose-model') %>
+    plugin does this by adding support for model loading through the import keyword.
+  </p>
+  <p>
+    The enforcement of naming conventions and the directory where files are located make all of this possible.
   </p>
 </section>
 

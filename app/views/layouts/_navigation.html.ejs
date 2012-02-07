@@ -2,7 +2,7 @@
   <dt>Documentation</dt>
   <dd>
     <ul>
-      <% ['overview', 'details', 'your-first-app', 'configuration', 'routing', 'controllers', 'views', 'helpers', 'heroku'].forEach(function(slug) { %>
+      <% ['overview', 'important-details', 'your-first-app', 'configuration', 'routing', 'controllers', 'views', 'helpers', 'heroku'].forEach(function(slug) { %>
         <li<%- slug === this.page ? ' class="selected"' : '' %>>
           <a href="/docs/<%= slug %>"><%= capitalize_words(slug.replace(/-/g, ' ')) %></a>
         </li>
@@ -13,7 +13,7 @@
   <dt>Plugins</dt>
   <dd>
     <ul>
-      <% ['caboose-model', 'caboose-authentication'].forEach(function(slug) { %>
+      <% ['caboose-model'].forEach(function(slug) { %>
         <li<%- slug === this.page ? ' class="selected"' : '' %>>
           <a href="/plugins/<%= slug %>"><%= slug %></a>
         </li>

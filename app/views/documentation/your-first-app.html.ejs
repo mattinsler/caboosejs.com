@@ -54,8 +54,7 @@ $ caboose generate controller Posts
   <p>
     First, we'll add a simple index page.  Since there's no data needed, we can just render the page right away.
     
-    <h4>blog/app/controllers/posts_controller.coffee</h4>
-    <%- highlight_start('coffeescript') %>
+    <%- highlight_start('coffeescript', 'blog/app/controllers/posts_controller.coffee') %>
   index: -> @render()
     <%- highlight_end() %>
   </p>
@@ -65,8 +64,7 @@ $ caboose generate controller Posts
     of the view should match the action, format, and rendering engine separated by periods.  So index.html.ejs is
     saying that this is the view for the index action, html format and using the ejs rendering engine.
     
-    <h4>blog/app/views/posts/index.html.ejs</h4>
-    <%- highlight_start('html+erb') %>
+    <%- highlight_start('html+erb', 'blog/app/views/posts/index.html.ejs') %>
 <h1>My Blog</h1>
 
 <p>Welcome to my blog!</p>
@@ -82,8 +80,7 @@ $ caboose generate controller Posts
     We're creating a resource here, so let's use a <code>resource</code> route.  Open up the config/routes.coffee
     file and let's add <code>@resources 'posts'</code> to it.
   
-    <h4>blog/config/routes.coffee</h4>
-    <%- highlight_start('coffeescript') %>
+    <%- highlight_start('coffeescript', 'blog/config/routes.coffee') %>
 module.exports = ->
   @route '/', 'home'
   @resources 'posts'
@@ -157,8 +154,7 @@ module.exports = ->
     Now that we have a link to our <code>new</code> page, let&apos;s create that page.  Working from the view back to
     the controller this time, here's a simple view that we can name new.html.ejs.
     
-    <h4>blog/app/views/posts/new.html.ejs</h4>
-    <%- highlight_start('html+erb') %>
+    <%- highlight_start('html+erb', 'blog/app/views/posts/new.html.ejs') %>
 <h1>New Post</h1>
 
 <form id="post" action="/posts" method="POST">
@@ -179,8 +175,7 @@ module.exports = ->
   <p>
     Great!  This is a simple page again, so our controller action doesn&apos;t need to do anything complex here either.
     
-    <h4>blog/app/controllers/posts_controller.coffee</h4>
-    <%- highlight_start('coffeescript') %>
+    <%- highlight_start('coffeescript', 'blog/app/controllers/posts_controller.coffee') %>
   new: -> @render()
     <%- highlight_end() %>
   </p>
@@ -192,8 +187,7 @@ module.exports = ->
     Now that we have a link to our <code>new</code> page, let&apos;s create that page.  Working from the view back to
     the controller this time, here's a simple view that we can name new.html.ejs.
     
-    <h4>blog/app/views/posts/new.html.ejs</h4>
-    <%- highlight_start('html+erb') %>
+    <%- highlight_start('html+erb', 'blog/app/views/posts/new.html.ejs') %>
 <h1>New Post</h1>
 
 <form id="post" action="/posts" method="POST">
@@ -228,8 +222,7 @@ $ caboose plugin install caboose-model
   <p>
     Let's look at what caboose plugin install does.  Your <code>package.json</code> should look like this now:
   
-    <h4>blog/package.json</h4>
-    <%- highlight_start('javascript') %>
+    <%- highlight_start('javascript', 'blog/package.json') %>
 {
   "name": "blog",
   "version": "0.0.1",
@@ -267,8 +260,7 @@ $ caboose generate model Post
   <p>
     So what does that basic model look like?  If we open up app/models/post.coffee now, we should see
   
-    <h4>blog/app/models/post.coffee</h4>
-    <%- highlight_start('coffeescript') %>
+    <%- highlight_start('coffeescript', 'blog/app/models/post.coffee') %>
 class Post extends Model
   store_in 'post'
     <%- highlight_end() %>

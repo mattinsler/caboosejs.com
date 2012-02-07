@@ -3,6 +3,65 @@
 <section class="heading">
   <h1>Views</h1>
   <p>
+    The pretty part!
   </p>
   <hr />
+</section>
+
+<section>
+  <p>
+    Views are where the HTML rendering happens.  Caboose currently only supports HTML views, but will be getting support for things like
+    XML and text.
+  </p>
+</section>
+
+<section>
+  <h2>Rendering Engines</h2>
+  <p>
+    View rendering is done through the <%- link_to('consolidate', 'https://github.com/visionmedia/consolidate.js') %> project and
+    supported rendering engines can be found on consolidate's github page. Views can be written using any of the rendering engines
+    supported by consolidate. Just npm install the rendering engine or add it to your package.json and go! You can even mix and match
+    engines for each view.
+  </p>
+</section>
+
+<section>
+  <h2>File naming</h2>
+  <p>
+    [action].[format].[engine]
+
+    For instance, index.html.ejs would be the index action, where the client requests an html document, and using the ejs rendering engine.
+  </p>
+</section>
+
+<section>
+  <h2>Directory</h2>
+  <p>
+    Views for a controller are located within a directory with the same name as the controller. For instance, if you have a controller named UsersController which would be in the file app/controllers/users_controller.coffee, then the views would be in the app/views/users directory.
+  </p>
+</section>
+
+<section>
+  <h2>Layouts</h2>
+  <p>
+    Layouts are located within the app/views/layouts directory. The default layout is always application.html.[engine]. If you would like to override the layout for a specific controller, just create a layout named [controller].html.[engine] in the layouts directory.
+
+    Within a layout, you can use the yield method to place the view body. For instance, here's a dead simple application.html.ejs file:
+
+    <%- highlight_start('html+erb', 'app/views/layouts/application.html.ejs') %>
+&lt;html&gt;
+  &lt;head&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;%- yield() %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    <%- highlight_end() %>
+  </p>
+</section>
+
+<section>
+  <h2>Helpers</h2>
+  <p>
+  </p>
 </section>

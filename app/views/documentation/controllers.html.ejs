@@ -24,17 +24,205 @@
     put all of the filters and helpers that will be common to all controllers within your application.
   </p>
   <p>
-    The ApplicationController inherits from <code>Controller</code> which contains the methods 
+    The ApplicationController inherits from <code>Controller</code> which contains the necessary methods to respond to requests.  You can
+    either extend Controller directly or extend another controller.
   </p>
   <p>
-    To create a new 
-    Controllers can be created on the command line.
+    To create a new controller, you can either use the command line
     
     <%- highlight_start('bash') %>
 $ caboose generate controller Posts
     <%- highlight_end() %>
   </p>
-  <!-- <p>
-    Or just 
-  </p> -->
+  <p>
+    or just create a new file in the app/controllers directory.
+    
+    <%- highlight_start('coffeescript', 'app/controllers/posts_controller.coffee') %>
+import 'ApplicationController'
+
+class PostsController extends ApplicationController
+  index: ->
+    @render()
+    <%- highlight_end() %>
+  </p>
+  <p>
+    <strong>Please note</strong> that <%- link_to('naming conventions', '/docs/important-details#naming-conventions-matter') %>
+    are very important here.  If you are creating controllers by hand, be sure to put them in the app/controllers directory and name
+    the file in all lowercase letters as [controller name]_controller.coffee.  This should correspond to the controller class, which
+    should always have Controller at the end of it and be camel-case.  So PostsController would correspond to posts_controller.coffee,
+    and UniqueUsersController would correspond to unique_users_controller.coffee.
+  </p>
+</section>
+
+<section>
+  <h2>Controller actions</h2>
+  <p>
+    Methods on a controller correspond to a route action.  When caboose finds an appropriate route for a request, it will instantiate the
+    controller and call the action named in the route.  For instance, if you have a route to the posts controller's index action:
+    
+    <%- highlight_start('coffeescript', 'config/routes.coffee') %>
+modules.exports = ->
+  @route '/posts', 'posts#index'
+    <%- highlight_end() %>
+  </p>
+  <p>
+    and you make a request to http://your-server/posts, caboose will first create the PostsController and then execute the <code>index</code>
+    method.  If the index method looks like above, then it will simply render the page without taking any further actions.
+  </p>
+</section>
+
+<section>
+  <h2>Responding</h2>
+  <p>
+    There are a few ways that you can respond to a request from within a controller.  The most common will be <code>@render</code>
+    and <code>@redirect_to</code>.
+  </p>
+  
+  <section>
+    <h3>Available response methods</h3>
+    <p>
+      <ul>
+        <li>
+          <strong>@render</strong>
+        </li>
+        <li>
+          <strong>@redirect_to</strong>
+        </li>
+        <li>
+          <strong>@not_found</strong>
+        </li>
+        <li>
+          <strong>@error</strong>
+        </li>
+        <li>
+          <strong>@unauthorized</strong>
+        </li>
+        <li>
+          <strong>@respond</strong>
+        </li>
+      </ul>
+    </p>
+  </section>
+</section>
+
+<section>
+  <h2>Controller variables</h2>
+  <p>
+    
+  </p>
+  <section>
+    <h3>Available variable</h3>
+    <p>
+      <ul>
+        <li>
+          <strong>@request</strong>
+        </li>
+        <li>
+          <strong>@response</strong>
+        </li>
+        <li>
+          <strong>@headers</strong>
+        </li>
+        <li>
+          <strong>@cookies</strong>
+        </li>
+        <li>
+          <strong>@session</strong>
+        </li>
+        <li>
+          <strong>@body</strong>
+        </li>
+        <li>
+          <strong>@params</strong>
+        </li>
+        <li>
+          <strong>@query</strong>
+        </li>
+        <li>
+          <strong>@flash</strong>
+        </li>
+      </ul>
+    </p>
+  </section>
+</section>
+
+<section>
+  <h2>Filters</h2>
+  <p>
+    
+  </p>
+  <section>
+    <h3>Available filters</h3>
+    <p>
+      <ul>
+        <li>
+          <strong>before_filter</strong>
+        </li>
+        <li>
+          <strong>after_filter</strong>
+        </li>
+      </ul>
+    </p>
+</section>
+
+<section>
+  <h2>How does this come together?</h2>
+  <p>
+    Here we will create a resources route for our blog posts and another route that will map the root route
+    to the PostsController index route.
+    
+    <%- highlight_start('coffeescript', 'config/routes.coffee') %>
+module.exports = ->
+  @resources 'posts'
+  @route '/', 'posts#index'
+    <%- highlight_end() %>
+  </p>
+  <p>
+    We have an ApplicationController with a filter method that can be shared by all controllers who extend ApplicationController.
+    We're using the <%- link_to('caboose-model', '/plugins/caboose-model') %> plugin to query for the post specified by the <code>id</code>
+    parameter, setting the successful response to an instance variable to be used by the actions later.
+    
+    <%- highlight_start('coffeescript', 'app/controllers/application_controller.coffee') %>
+import 'Post'
+
+class ApplicationController extends Controller
+  posts_filter: (next) ->
+    Post.where(_id: @params.id).first (err, post) =>
+      return next(err) if err?
+      return next(new Error("Could not find post with id #{@params.id}")) unless post?
+      @post = post
+      next()
+    <%- highlight_end() %>
+  </p>
+  <p>
+    Finally, we create a PostsController to handle the resources actions.  We're telling the controller to filter the show, edit, update
+    and destroy methods with the <code>posts_filter</code> from the ApplicationController to find the current post.  We've also implemented
+    the index and show actions here.  The show action will already have <code>@post</code> set from the posts_filter, so all it does is
+    render the view (which will be located at app/views/posts/show.html.[view-engine]).
+  </p>
+  <p>
+    The index action is a bit more complex, and implements a rudimentary form of paging.  It is pulling the <code>page</code> and
+    <code>page_size</code> from the <code>@query</code> and then using that to skip and limit the post records.  Finally, we render
+    the index view (which will be located at app/views/posts/index.html.[view-engine]).
+    
+    <%- highlight_start('coffeescript', 'app/controllers/posts_controller.coffee') %>
+import 'Post'
+import 'ApplicationController'
+
+class PostsController extends ApplicationController
+  before_filter 'posts_filter', {only: ['show', 'edit', 'update', 'destroy']}
+
+  index: ->
+    page_size = @query.page_size || 10
+    page = @query.page || 1
+    Post.skip(page_size * (page - 1)).limit(page_size).array (err, posts) =>
+      return @error(err) if err?
+      @posts = posts
+      @render()
+  
+  show: -> @render()
+  
+  # handle other actions...
+    <%- highlight_end() %>
+  </p>
 </section>
