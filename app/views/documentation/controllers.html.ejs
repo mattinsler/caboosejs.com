@@ -81,26 +81,44 @@ modules.exports = ->
   <section>
     <h3>Available response methods</h3>
     <p>
-      <ul>
-        <li>
-          <strong>@render</strong>
-        </li>
-        <li>
-          <strong>@redirect_to</strong>
-        </li>
-        <li>
-          <strong>@not_found</strong>
-        </li>
-        <li>
-          <strong>@error</strong>
-        </li>
-        <li>
-          <strong>@unauthorized</strong>
-        </li>
-        <li>
-          <strong>@respond</strong>
-        </li>
-      </ul>
+      <dl>
+        <dt>@render</dt>
+        <dd>
+          <p>
+            
+          </p>
+        </dd>
+        <dt>@redirect_to</dt>
+        <dd>
+          <p>
+            
+          </p>
+        </dd>
+        <dt>@not_found</dt>
+        <dd>
+          <p>
+            
+          </p>
+        </dd>
+        <dt>@error</dt>
+        <dd>
+          <p>
+            
+          </p>
+        </dd>
+        <dt>@unauthorized</dt>
+        <dd>
+          <p>
+            
+          </p>
+        </dd>
+        <!-- <dt>@respond</dt>
+        <dd>
+          <p>
+            
+          </p>
+        </dd> -->
+      </dl>
     </p>
   </section>
 </section>
@@ -113,55 +131,124 @@ modules.exports = ->
   <section>
     <h3>Available variable</h3>
     <p>
-      <ul>
-        <li>
-          <strong>@request</strong>
-        </li>
-        <li>
-          <strong>@response</strong>
-        </li>
-        <li>
-          <strong>@headers</strong>
-        </li>
-        <li>
-          <strong>@cookies</strong>
-        </li>
-        <li>
-          <strong>@session</strong>
-        </li>
-        <li>
-          <strong>@body</strong>
-        </li>
-        <li>
-          <strong>@params</strong>
-        </li>
-        <li>
-          <strong>@query</strong>
-        </li>
-        <li>
-          <strong>@flash</strong>
-        </li>
-      </ul>
+      <dl>
+        <dt>@request</dt>
+        <dd>
+          <p>
+            The request object as it comes back from <%- link_to('express', 'http://expressjs.com/guide.html#req.header()') %>.
+          </p>
+        </dd>
+        <dt>@response</dt>
+        <dd>
+          <p>
+            The response object as it comes back from <%- link_to('express', 'http://expressjs.com/guide.html#res.header()') %>.
+          </p>
+        </dd>
+        <dt>@headers</dt>
+        <dd>
+          <p>
+            An object with the current request's headers.
+          </p>
+        </dd>
+        <dt>@cookies</dt>
+        <dd>
+          <p>
+            An object with the current request's cookies.
+          </p>
+        </dd>
+        <dt>@session</dt>
+        <dd>
+          <p>
+            An object containing the current session.
+          </p>
+        </dd>
+        <dt>@body</dt>
+        <dd>
+          <p>
+            The body of a request when the encoding is multipart.
+          </p>
+        </dd>
+        <dt>@params</dt>
+        <dd>
+          <p>
+            An object that contains the parameters of the current request.  This is populated by the <%- link_to('routing', '/docs/routing') %>
+            system.
+          </p>
+        </dd>
+        <dt>@query</dt>
+        <dd>
+          <p>
+            An object with the URL query parameters broken out.  For example, http://www.caboosejs.com?foo=bar&page=1 will result in a
+            @query object that looks like
+
+            <%- highlight_start('coffeescript') %>
+{
+  foo: 'bar',
+  page: '1'
+}
+            <%- highlight_end() %>
+          </p>
+        </dd>
+        <dt>@flash</dt>
+        <dd>
+          <p>
+            
+          </p>
+        </dd>
+      </dl>
     </p>
   </section>
 </section>
 
 <section>
-  <h2>Filters</h2>
+  <h2>Attributes</h2>
   <p>
     
   </p>
   <section>
-    <h3>Available filters</h3>
+    <h3>Available attributes</h3>
     <p>
-      <ul>
-        <li>
-          <strong>before_filter</strong>
-        </li>
-        <li>
-          <strong>after_filter</strong>
-        </li>
-      </ul>
+      <dl>
+        <dt>helper</dt>
+        <dd>
+          <p>
+            Make an object's methods available to the view.  Check out the <%- link_to('helper', '/docs/helpers') %> docs.
+          </p>
+        </dd>
+        <dt>before_action</dt>
+        <dd>
+          <p>
+            Execute a method before an action is executed.
+          
+            <%- highlight_start('coffeescript') %>
+import 'ApplicationController'
+
+class UsersController extends ApplicationController
+  before_action (next) ->
+    console.log "Request to #{@request.url}"
+    next()
+  before_action 'something_in_application_controller'
+  before_action 'filter_something', {only: ['index']}
+  before_action ((next) ->
+    console.log 'This is not the index action'
+    next()
+  ), {except: ['index']}
+  
+  filter_something: (next) ->
+    return next(new Error()) unless @params.foobar?
+    next()
+  
+  index: -> @render()
+            <%- highlight_end() %>
+          </p>
+        </dd>
+        <dt>after_action</dt>
+        <dd>
+          Execute a method after an action is executed.
+          
+          <strong>Docs and implementation coming soon!</strong>
+        </dd>
+      </dl>
     </p>
 </section>
 
@@ -210,7 +297,7 @@ import 'Post'
 import 'ApplicationController'
 
 class PostsController extends ApplicationController
-  before_filter 'posts_filter', {only: ['show', 'edit', 'update', 'destroy']}
+  before_action 'posts_filter', {only: ['show', 'edit', 'update', 'destroy']}
 
   index: ->
     page_size = @query.page_size || 10

@@ -10,6 +10,80 @@
 
 <section>
   <p>
-    Helpers in caboose are strictly view helpers.
+    Helpers in caboose are blocks of code that can be imported easily into your controllers and views.
+  </p>
+</section>
+
+<section>
+  <h2>Via import</h2>
+  <p>
+    Helpers are located in the <code>app/helpers</code> directory and are modules named specifically.  In order to be recognized
+    by the <%- link_to('import', '/docs/important-details#import') %> keyword, helper files must be named [helper-name]_helper.coffee
+    or [helper-name]_helper.js.  For instance, a string helper could be named string_helper.coffee and would be accessible by
+    <code>import 'StringHelper'</code>.  These helpers are just normal node modules.
+    
+    <%- highlight_start('coffeescript', 'app/helpers/string_helper.coffee') %>
+exports.ellipsis = (value, length) ->
+  return value if value.length < length
+  value.substr(0, length - 3) + '...'
+
+exports.truncate = (value, length) ->
+  value.substr(0, length)
+    <%- highlight_end() %>
+  </p>
+  <p>
+    You can use the imported helper within the controller, like in the for_example field below, or in the view by using the
+    <code>helper</code> attribute.
+    
+    <%- highlight_start('coffeescript', 'app/controllers/posts_controller.coffee') %>
+import 'StringHelper'
+
+class PostsController extends Controller
+  helper StringHelper
+  
+  show: ->
+    @post = {
+      author: 'Mr. Clean'
+      content: 'This is something really long and arbitrarily complex.  I&amp;apos; not sure why someone would write something this long!'
+      for_example: StringHelper.trucate('Truncate this to 10 characters', 10)
+    }
+    @render()
+    <%- highlight_end() %>
+    
+    <%- highlight_start('html+erb', 'app/views/users/index.html.ejs') %>
+<h2>&lt;%= @post.author %&gt;</h2>
+<p>
+  &lt;%= ellipsis(@post.content, 80) %&gt;
+</p>
+    <%- highlight_end() %>
+  </p>
+</section>
+
+<section>
+  <h2>As an object</h2>
+  <p>
+    You can also use the <code>helper</code> attribute to make any object available to the view layer.
+    
+    <%- highlight_start('coffeescript', 'app/controllers/posts_controller.coffee') %>
+class PostsController extends Controller
+  helper {
+    random_quip: ->
+      # generate some random quip
+    moment: require('moment')
+  }
+
+  index: -> @render()
+    <%- highlight_end() %>
+    
+    <%- highlight_start('html+erb', 'app/views/users/index.html.ejs') %>
+<h1>Welcome to my wonderful website!</h1>
+<h2>
+  It is currently &lt;%= moment().format('LT') %&gt;
+</h2>
+
+<p>
+  &lt;%= random_quip() %&gt;
+</p>
+    <%- highlight_end() %>
   </p>
 </section>

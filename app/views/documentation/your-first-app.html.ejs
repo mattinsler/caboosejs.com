@@ -279,7 +279,7 @@ class Post extends Model
 import 'Post'
 
 class PostsController extends Controller
-  before_filter 'get_post', {only: ['show', 'edit', 'update']}
+  before_action 'get_post', {only: ['show', 'edit', 'update']}
 
   get_post: (next) ->
     Post.where({_id: @params.id}).first (err, post) =>

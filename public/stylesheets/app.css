@@ -48,3 +48,6 @@ footer .container_16 p {margin-right:0; margin-left:20px;}
 
 #viewer .highlight {border:1px solid #4BACBD; background-color:#EBFCFF;}
 #viewer .highlight>pre {margin:5px;}
+
+#viewer dt {font-weight:bold;}
+#viewer dd {margin-bottom:15px;}

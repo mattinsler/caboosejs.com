@@ -128,9 +128,55 @@ instance 'summary', ->
   <section id="supported_attributes">
     <h3>Supported attributes</h3>
     <p>
-      <code><strong>store_in(collection name)</strong></code> the collection to persist this model to<br>
-      <code><strong>instance(method_name, method)</strong></code> a method to be added to the model prototype<br>
-      <code><strong>static(method_name, method)</strong></code> a method to be added to the model, not available to instances<br>
+      <dl>
+        <dt>store_in(collection_name)</dt>
+        <dd>
+          <p>
+            Specifies the collection to persist this model to.
+          </p>
+          <%- highlight_start('coffeescript') %>
+class User extends Model
+  store_in 'user'
+          <%- highlight_end() %>
+        </dd>
+        
+        <dt>instance(method_name, method)</dt>
+        <dd>
+          <p>
+            Adds a method to the model's prototype to be accessed by instances.<br>
+            <strong>NOTE</strong> <em>This is the same as adding a method to the class.</em>
+          </p>
+          <%- highlight_start('coffeescript') %>
+class User extends Model
+  store_in 'user'
+  instance 'set_password', (password) ->
+    @password = encrypt(password)
+          <%- highlight_end() %>
+        </dd>
+        <dt>static(method_name, method)</dt>
+        <dd>
+          <p>
+            Adds a method to the model that is only available at the class level.
+          </p>
+          <%- highlight_start('coffeescript') %>
+class User extends Model
+  store_in 'user'
+  static 'find_by_email', (email, callback) ->
+    @where {email: email}, callback
+          <%- highlight_end() %>
+        </dd>
+        <dt>property(property_name, method)</dt>
+        <dd>
+          <p>
+            Defines a derived property on an instance.
+          </p>
+          <%- highlight_start('coffeescript') %>
+class User extends Model
+  store_in 'user'
+  property 'full_name', -> "#{@first_name} #{@last_name}"
+          <%- highlight_end() %>
+        </dd>
+      </dl>
     </p>
   </section>
 </section>
@@ -345,31 +391,109 @@ Post.where({
   <section>
     <h3>save(obj, callback = null)</h3>
     <p>
+      The save method either creates or updates a model in MongoDB.  You can either pass an object to the model's
+      save method or you can call save directly on a model.
+    </p>
+    <p>
+      If the object you're saving already has an <code>_id</code> field and exists in the database, the model will be updated.  However,
+      regardless of the existence of the _id field, if the ID does not exist in the database, save will create the object.
       
+      <%- highlight_start('coffeescript') %>
+# Save a new user in normal mode
+User.save {
+  first_name: 'Jolly Green',
+  last_name: 'Giant',
+  email: 'jolly.green@giant.com'
+}
+# Save a new user in safe mode, processing a callback when finished
+Post.save {
+  first_name: 'Jolly Green',
+  last_name: 'Giant',
+  email: 'jolly.green@giant.com'
+}, (err, post) ->
+  # post will now have _id defined
+
+user = new User(email: 'jolly.green@giant.com')
+user.first_name = 'Jolly Green'
+# Save user in normal mode without a callback
+user.save()
+
+# Save user in safe mode and process callback when finished
+user.save (err, user) ->
+  console.log user._id
+      <%- highlight_end() %>
     </p>
   </section>
   
   <section>
-    <h3>update(query, update, options, callback = null)</h3>
+    <h3>update(query, update, callback = null)</h3>
     <p>
+      The update method will update the first record that matches the <code>query</code> in the database.  You can refer to
+      <%- link_to('the MongoDB docs', 'http://www.mongodb.org/display/DOCS/Updating') %> for atomic update operators.  Please note
+      that if you're not using update modifiers, like <code>$set</code>, the document you are updating will be overwritten.
+      
+      <%- highlight_start('coffeescript') %>
+# Update the first user named Matt to be named Jim
+User.update {first_name: 'Matt'}, {$set: {first_name: 'Jim'}}
+
+# Same as above, but in safe mode, processing the result
+User.update {first_name: 'Matt'}, {$set: {first_name: 'Jim'}}, (err) ->
+  console.error(err.stack) if err?
+      <%- highlight_end() %>
     </p>
   </section>
   
   <section>
     <h3>update_multi(query, update, callback = null)</h3>
     <p>
+      While <code>update</code> only updates the first matching record, <code>update_multi</code> will update all matching records.
+      
+      <%- highlight_start('coffeescript') %>
+# Update all users named Matt to be named Jim
+User.update_multi {first_name: 'Matt'}, {$set: {first_name: 'Jim'}}
+
+# Same as above, but in safe mode, processing the result
+User.update_all {first_name: 'Matt'}, {$set: {first_name: 'Jim'}}, (err) ->
+  console.error(err.stack) if err?
+      <%- highlight_end() %>
     </p>
   </section>
   
   <section>
     <h3>upsert(query, update, callback = null)</h3>
     <p>
+      This method will either update the first matching record or insert the object.  If the object is inserted, the query is combined
+      with the update in order to create the saved object.
+      
+      <%- highlight_start('coffeescript') %>
+# Assuming an empty user collection
+
+# This should create a new user object containing {first_name: 'Matt', last_name: 'Insler'}
+User.upsert {first_name: 'Matt'}, {$set: {last_name: 'Insler'}}
+
+# This time, the email address will be set on the user we just created.
+# This also shows a safe version with callback.
+User.upsert {first_name: 'Matt'},
+            {$set: {email: 'matt.insler@gmail.com'}}, (err) ->
+  console.error(err.stack) if err?
+      <%- highlight_end() %>
     </p>
   </section>
   
   <section>
     <h3>remove(query, callback = null)</h3>
     <p>
+      The remove method deleted the records matching the specified query.  Please remember that this will delete <em>ALL</em> matching
+      records.
+      
+      <%- highlight_start('coffeescript') %>
+# Delete all users named Matt
+User.remove {first_name: 'Matt'}
+
+# Same as above in safe mode processing a callback
+User.remove {first_name: 'Matt'}, (err) ->
+  console.error(err.stack) if err?
+      <%- highlight_end() %>
     </p>
   </section>
   
