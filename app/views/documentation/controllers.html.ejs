@@ -82,42 +82,44 @@ modules.exports = ->
     <h3>Available response methods</h3>
     <p>
       <dl>
-        <dt>@render</dt>
+        <dt>@render()</dt>
+        <dt>@render(view)</dt>
+        <dt>@render(options)</dt>
+        <dt>@render(view, options)</dt>
         <dd>
           <p>
-            
+            The main response method.  All other methods are just sugar.
           </p>
         </dd>
-        <dt>@redirect_to</dt>
+        <dt>@redirect_to(path)</dt>
+        <dt>@redirect_to(path, flash)</dt>
         <dd>
           <p>
-            
+            Responds with a 302 redirection to the path of your choosing.<br/>
+            The optional flash object will be available on the next rendered page.<br/>
+            <%- highlight_start('coffeescript') %>@redirect_to '/authorized_path', {success: 'Welcome to my website!'}<%- highlight_end() %>
           </p>
         </dd>
-        <dt>@not_found</dt>
+        <dt>@not_found()</dt>
+        <dt>@not_found(error)</dt>
         <dd>
           <p>
-            
+            Responds with a 404, optionally taking an error object.
           </p>
         </dd>
-        <dt>@error</dt>
+        <dt>@error(error)</dt>
         <dd>
           <p>
-            
+            Passes the error to the next middleware in the stack.  The default stack will respond with a 500 and print out the error.
           </p>
         </dd>
-        <dt>@unauthorized</dt>
+        <dt>@unauthorized()</dt>
+        <dt>@unauthorized(error)</dt>
         <dd>
           <p>
-            
+            Responds with a 401, optionally taking an error object.
           </p>
         </dd>
-        <!-- <dt>@respond</dt>
-        <dd>
-          <p>
-            
-          </p>
-        </dd> -->
       </dl>
     </p>
   </section>
